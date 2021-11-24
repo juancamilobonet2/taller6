@@ -149,14 +149,11 @@ public class Libreria
 			String elAutor = partes[1];
 			double laCalificacion = Double.parseDouble(partes[2]);
 			String nombreCategoria = partes[3];
-			Categoria laCategoria = buscarCategoria(nombreCategoria);
-			String archivoPortada = partes[4];
-			int ancho = Integer.parseInt(partes[5]);
-			int alto = Integer.parseInt(partes[6]);
-			
-			
-			//para crear una categoria nueva
-			if(laCategoria == null) {
+			Categoria laCategoria;
+			try {
+				laCategoria = buscarCategoria(nombreCategoria);
+			}
+			catch(ItemNotFoundException ex){
 				int lenCategorias = categorias.length;
 				Categoria[] newCategorias = new Categoria[lenCategorias+1];
 				
@@ -168,6 +165,10 @@ public class Libreria
 				this.categorias = newCategorias;
 			}
 			
+			
+			String archivoPortada = partes[4];
+			int ancho = Integer.parseInt(partes[5]);
+			int alto = Integer.parseInt(partes[6]);
 			
 
 			// Crear un nuevo libro
@@ -194,8 +195,9 @@ public class Libreria
 	 * 
 	 * @param nombreCategoria El nombre de la categoría buscada
 	 * @return La categoría que tiene el nombre dado
+	 * @throws ItemNotFoundException 
 	 */
-	private Categoria buscarCategoria(String nombreCategoria)
+	private Categoria buscarCategoria(String nombreCategoria) throws ItemNotFoundException
 	{
 		Categoria laCategoria = null;
 		for (int i = 0; i < categorias.length && laCategoria == null; i++)
@@ -203,6 +205,11 @@ public class Libreria
 			if (categorias[i].darNombre().equals(nombreCategoria))
 				laCategoria = categorias[i];
 		}
+		
+		if(laCategoria == null) {
+			throw new ItemNotFoundException();
+		}
+		
 		return laCategoria;
 	}
 
@@ -441,4 +448,21 @@ public class Libreria
 		return hayAutorEnVariasCategorias;
 	}
 
+	public void cambiarNombreCategoria(String nombreViejo, String nombreNuevo) throws ItemNotFoundException,ItemRepeatedException {
+		Categoria vieja;
+		
+		try {
+			vieja = buscarCategoria(nombreViejo);
+		}
+		catch(ItemNotFoundException ex) {
+			throw ex;
+		}
+		
+		try {
+			buscarCategoria(nombreNuevo);
+			throw new ItemRepeatedException();
+		} catch(ItemNotFoundException ex) {
+			vieja.cambiarNombre(nombreNuevo);
+		}
+	}
 }

@@ -21,6 +21,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.formdev.flatlaf.FlatLightLaf;
 
 import uniandes.dpoo.taller1.modelo.Categoria;
+import uniandes.dpoo.taller1.modelo.ItemNotFoundException;
+import uniandes.dpoo.taller1.modelo.ItemRepeatedException;
 import uniandes.dpoo.taller1.modelo.Libreria;
 import uniandes.dpoo.taller1.modelo.Libro;
 
@@ -381,4 +383,25 @@ public class InterfazLibreria extends JFrame
 		new InterfazLibreria();
 	}
 
+	public void cambiarNombreCategoria() {
+		String viejo = JOptionPane.showInputDialog(this, "Escriba el nombre viejo de la categoria que desea cambiar:", "Categoria");
+		String nuevo = JOptionPane.showInputDialog(this, "Escriba el nombre nuevo de la categoria que desea cambiar:", "Categoria");
+		if (viejo != null && nuevo != null)
+		{
+			try {
+				libreria.cambiarNombreCategoria(viejo, nuevo);
+				
+				JOptionPane.showMessageDialog(this, "Cambio hecho con exito.", "Nombre categoria cambiado",
+						JOptionPane.INFORMATION_MESSAGE);
+			} catch(Exception ex) {
+				if(ex.getClass() == ItemNotFoundException.class) {
+					JOptionPane.showMessageDialog(this, "No hay ninguna categoria con ese nombre", "No hay categoria",
+							JOptionPane.INFORMATION_MESSAGE);
+				}else if(ex.getClass() == ItemRepeatedException.class){
+					JOptionPane.showMessageDialog(this, "Esa categoria ya existe, cambiar el nombre de la categoria nueva", "Categoria ya existe",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
 }
