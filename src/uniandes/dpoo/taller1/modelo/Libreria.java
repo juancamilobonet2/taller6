@@ -153,6 +153,22 @@ public class Libreria
 			String archivoPortada = partes[4];
 			int ancho = Integer.parseInt(partes[5]);
 			int alto = Integer.parseInt(partes[6]);
+			
+			
+			//para crear una categoria nueva
+			if(laCategoria == null) {
+				int lenCategorias = categorias.length;
+				Categoria[] newCategorias = new Categoria[lenCategorias+1];
+				
+				for(int i = 0; i<(lenCategorias); i++) {
+					newCategorias[i] = categorias[i];
+				}
+				laCategoria = new Categoria(nombreCategoria,false);
+				newCategorias[lenCategorias] = laCategoria;
+				this.categorias = newCategorias;
+			}
+			
+			
 
 			// Crear un nuevo libro
 			Libro nuevo = new Libro(elTitulo, elAutor, laCalificacion, laCategoria);
