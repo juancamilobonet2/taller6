@@ -465,4 +465,64 @@ public class Libreria
 			vieja.cambiarNombre(nombreNuevo);
 		}
 	}
+	
+	public int eliminarLibrosAutor(String eliminar) throws ItemNotFoundException, AuthorNotFoundException {
+		if (eliminar != null) {
+			String[] autores = eliminar.split(",");
+			ArrayList<String> noEncontrados = new ArrayList<>();
+			ArrayList<String> encontrados = new ArrayList<>();
+			ArrayList<String> respuestas = new ArrayList<>();
+			int borrados = 0;
+			for (int i = 0; i < autores.length; i++) {
+				  ArrayList<Libro> librosAutor = buscarLibrosAutor(autores[i]);
+				  if (librosAutor.isEmpty()) {
+					  noEncontrados.add(autores[i]);
+				  }
+				  else {
+					  encontrados.add(autores[i]);
+				  }
+				  if (noEncontrados.isEmpty()) {
+					  for (int j = 0; j < encontrados.size(); j++) {
+						  System.out.println(encontrados.get(j));
+						  ArrayList<Libro> borrar = buscarLibrosAutor(encontrados.get(j));
+						  for (int x = 0; x < catalogo.size(); x++) {
+							  if (borrar.contains(catalogo.get(x))) {
+								  System.out.println(catalogo.get(x));
+								  catalogo.remove(x);
+								  borrados++;
+								  System.out.println("Libro removido");
+							  }
+						  }
+						  for (int y = 0; y < categorias.length; y++) {
+							  ArrayList<Libro> categActual = categorias[y].darLibros();
+							  for (int z = 0; z < categActual.size(); z++) {
+								  if (borrar.contains(categActual.get(z))) {
+									  System.out.println(categActual.get(z));
+									  categActual.remove(z);
+									  System.out.println("Libro removido de categoria");
+						  }
+						  }
+						  }
+					  }	
+				  }
+				  
+				  
+			}
+			if(!noEncontrados.isEmpty()) {
+				  String mensaje = " ";
+				  System.out.println(noEncontrados.size());
+				  for (int e = 0; e < noEncontrados.size(); e++) {
+					  mensaje += noEncontrados.get(e);
+					  mensaje += ", ";
+				  }
+				  throw new AuthorNotFoundException("Autor no encontrado: "+mensaje);
+			  }
+			return borrados;
+		}
+			
+				
+		
+			
+		return 0;
+	}
 }

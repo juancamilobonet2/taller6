@@ -40,6 +40,8 @@ public class PanelBotones extends JPanel implements ActionListener
 	private final static String AUTOR_VARIAS_CATEGORIAS = "HayAutorEnVariasCategorias";
 	
 	private final static String CAMBIAR_NOMBRE_CATEGORIA = "CambiarNombreCategoria";
+	
+	private final static String ELIMINAR_LIBROS_AUTOR = "EliminarLibrosAutor";
 
 	// ************************************************************************
 	// Atributos
@@ -74,6 +76,7 @@ public class PanelBotones extends JPanel implements ActionListener
 		agregarBoton(CATEGORIA_MEJOR, "Buscar libro con titulo", "./data/iconos/premio.png");
 		agregarBoton(AUTOR_VARIAS_CATEGORIAS, "Buscar libro con titulo", "./data/iconos/autor.png");
 		agregarBoton(CAMBIAR_NOMBRE_CATEGORIA, "Cambiar el nombre de una categoria","./data/iconos/autor.png");
+		agregarBoton(ELIMINAR_LIBROS_AUTOR, "Eliminar libros de ciertos autores","./data/iconos/autor.png");
 	}
 
 	// ************************************************************************
@@ -151,6 +154,11 @@ public class PanelBotones extends JPanel implements ActionListener
 		else if (CAMBIAR_NOMBRE_CATEGORIA.equals(comando))
 		{
 			ventana.cambiarNombreCategoria();
+			
+		}
+		else if (ELIMINAR_LIBROS_AUTOR.equals(comando))
+		{
+			ventana.eliminarLibros();
 			
 		}
 	}

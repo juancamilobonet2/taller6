@@ -23,6 +23,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import uniandes.dpoo.taller1.modelo.Categoria;
 import uniandes.dpoo.taller1.modelo.ItemNotFoundException;
 import uniandes.dpoo.taller1.modelo.ItemRepeatedException;
+import uniandes.dpoo.taller1.modelo.AuthorNotFoundException;
 import uniandes.dpoo.taller1.modelo.Libreria;
 import uniandes.dpoo.taller1.modelo.Libro;
 
@@ -401,6 +402,23 @@ public class InterfazLibreria extends JFrame
 					JOptionPane.showMessageDialog(this, "Esa categoria ya existe, cambiar el nombre de la categoria nueva", "Categoria ya existe",
 							JOptionPane.INFORMATION_MESSAGE);
 				}
+			}
+		}
+	}
+	
+	public void eliminarLibros() {
+		String eliminar = JOptionPane.showInputDialog(this, "Escriba el nombre de los autores cuyos libros desea borrar, separados por comas:", "Categoria");
+		ArrayList<Libro> libros = libreria.darLibros();
+		try {
+			int ans = libreria.eliminarLibrosAutor(eliminar);
+			JOptionPane.showMessageDialog(this, "Se borraron exitosamente "+ans+" libros.", "Libros borrados",
+					JOptionPane.INFORMATION_MESSAGE);
+			panelLibros.actualizarLibros(libros);
+		} catch(Exception ex) {
+			if(ex.getClass() == AuthorNotFoundException.class) {
+				System.out.println(ex);
+				JOptionPane.showMessageDialog(this, ex, "No hay autores",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
